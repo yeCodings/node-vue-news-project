@@ -56,9 +56,7 @@ const submitForm = () => {
       //   console.log(' error', error)
       // }
       axios.post("/adminapi/user/login", loginForm).then(res => {
-        console.log(res.data.data, res.data.ActionType)
         if (res.data.ActionType === "OK") {
-          console.log('axios.post ', res.data.data)
           store.commit("changeUserInfo", res.data.data)
           // store.commit("changeGetterRouter", false)
 
@@ -170,10 +168,6 @@ const options = {
 
 <style lang="scss" scoped>
 .formContainer {
-  // width: 500px;
-  // height: 300px;
-  // background-image: url('../../public/girl1.png');
-  // opacity: 0.3;
   position: fixed;
   left: 280px;
   right: 280px;

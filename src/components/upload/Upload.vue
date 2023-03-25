@@ -22,7 +22,6 @@ const emit = defineEmits(['avatarChange']);
 
 // 每次选择图片后的回调,使用原生的 URL.createObjectURL 方法把图片的信息赋值给 avatar
 const handleChange = (file) => {
-
   emit('avatarChange', file.raw)
 }
 
@@ -38,6 +37,8 @@ const uploadAvatar = computed(() =>
 ::v-deep .el-upload {
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
+  width: 178px;
+  height: 178px;
   cursor: pointer;
   position: relative;
   overflow: hidden;

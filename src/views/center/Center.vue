@@ -64,7 +64,6 @@ const avatarUrl = computed(() =>
 const handleChange = (file) => {
   userForm.avatar = URL.createObjectURL(file);
   userForm.file = file;
-
 }
 
 const userFormRef = ref();
