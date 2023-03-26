@@ -47,7 +47,7 @@ const handleCenter = () => {
 const handleLogout = () => {
   localStorage.removeItem('token');
   store.commit('clearUserInfo');
-  router.push('login');
+  router.push('/login');
 }
 
 </script>
@@ -84,15 +84,4 @@ const handleLogout = () => {
     color: white;
   }
 }
-
-// .left>.el-icon {
-//   // display: inline-block;
-//   // vertical-align: middle;
-//   vertical-align: -10%;
-//   margin-right: 20px;
-// }
-
-// .el-dropdown-link {
-//   margin: 18px 0 0 20px;
-// }
 </style>

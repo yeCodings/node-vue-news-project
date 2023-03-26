@@ -23,11 +23,6 @@ const router = createRouter({
   routes
 })
 
-// mainbox 嵌套路由 根据权限动态添加
-// routesConfig.forEach(item => {
-//   router.addRoute('mainbox', item)
-// })
-
 // 全局路由守卫，每次路由跳转之前
 router.beforeEach((to, from, next) => {
   if (to.name === 'login') {
@@ -42,6 +37,9 @@ router.beforeEach((to, from, next) => {
     } else {
       // 已经登录了，设置了token，还需要next()继续指定路由跳转
       if (!store.state.isGetterRouter) {
+
+        // 先清空嵌套路由，否则会越来越多 ,removeRouter('mainbox)
+        router.removeRoute('mainbox');
         RoutesConfig();
         next({
           path: to.fullPath
@@ -54,12 +52,28 @@ router.beforeEach((to, from, next) => {
 })
 
 const RoutesConfig = () => {
+
+  if (!router.hasRoute('mainbox')) {
+    router.addRoute({
+      path: '/mainbox',
+      name: 'mainbox',
+      component: MainBox
+    })
+  }
+
   routesConfig.forEach(item => {
-    router.addRoute('mainbox', item)
+    checkPromise(item) && router.addRoute('mainbox', item)
   })
 
   // 在这里需要改变isGetterRouter = true
   store.commit('changeGetterRouter', true);
+}
+
+const checkPromise = (item) => {
+  if (item.requireAdmin) {
+    return store.state.userInfo.role === 1
+  }
+  return true;
 }
 
 export default router

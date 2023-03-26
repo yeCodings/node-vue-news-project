@@ -47,21 +47,14 @@ const submitForm = () => {
   // 1. 校验表单
   loginFormRef.value.validate((valid) => {
     if (valid) {
-      // localStorage.setItem('token', 'yecoding')
-      // try {
-      //   axios.post("/adminapi/user/login", loginForm).then(res => {
-      //     console.log('res.data ', res.data)
-      //   })
-      // } catch (error) {
-      //   console.log(' error', error)
-      // }
+
       axios.post("/adminapi/user/login", loginForm).then(res => {
         if (res.data.ActionType === "OK") {
           store.commit("changeUserInfo", res.data.data)
-          // store.commit("changeGetterRouter", false)
+          // changeGetterRouter 改为false,进行路由校验配置
+          store.commit("changeGetterRouter", false)
 
           router.push("/index")
-          // localStorage.setItem('token', 'yecoding')
         } else {
           ElMessage.error('用户名和密码不匹配')
 

@@ -77,9 +77,6 @@ const submitForm = () => {
       try {
         // 校验数据成功，提交数据到后端
         const res = await upload('/adminapi/user/add', userForm)
-        if (res.code === 400) {
-          console.log(' userForm', res)
-        }
         // 跳转到用户列表页面
         router.push('/user-manage/userlist');
       } catch (error) {
