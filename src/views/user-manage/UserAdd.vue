@@ -5,7 +5,7 @@
       <el-input v-model="userForm.username" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input v-model="userForm.password" />
+      <el-input v-model.number="userForm.password" />
     </el-form-item>
     <el-form-item label="角色" prop="role">
       <el-select v-model="userForm.role" class="m-2" placeholder="Select" style="width: 100%">
@@ -32,7 +32,7 @@ import Upload from '@/components/upload/Upload.vue'
 import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
 import upload from '@/util/upload'
-
+import { ElMessage } from "element-plus";
 
 
 const userFormRef = ref();
@@ -53,7 +53,7 @@ const userForm = reactive({
 const userFormRules = reactive({
   introduction: [{ required: true, message: '请输入简介', trigger: 'blur' }],
   username: [{ required: true, message: '请输入名字', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { type: 'number', message: '密码必须输入数字' }],
   avatar: [{ required: true, message: '请设置头像', trigger: 'blur' }],
   role: [{ required: true, message: '请输入权限', trigger: 'blur' }],
 })
@@ -74,11 +74,18 @@ const handleChange = (file) => {
 const submitForm = () => {
   userFormRef.value.validate(async (valid) => {
     if (valid) {
-      // 校验数据成功，提交数据到后端
-      await upload('/adminapi/user/add', userForm)
-      console.log(' userForm', userForm)
-      // 跳转到用户列表页面
-      router.push('/user-manage/userlist');
+      try {
+        // 校验数据成功，提交数据到后端
+        const res = await upload('/adminapi/user/add', userForm)
+        if (res.code === 400) {
+          console.log(' userForm', res)
+        }
+        // 跳转到用户列表页面
+        router.push('/user-manage/userlist');
+      } catch (error) {
+        ElMessage.error(error.response.data.msg)
+      }
+
     }
   })
 }

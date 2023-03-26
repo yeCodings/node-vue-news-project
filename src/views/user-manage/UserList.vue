@@ -45,7 +45,7 @@
           <el-input v-model="userForm.username" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="userForm.password" />
+          <el-input v-model.number="userForm.password" />
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="userForm.role" class="m-2" placeholder="Select" style="width: 100%">
@@ -101,7 +101,7 @@ let userForm = reactive({
 const userFormRules = reactive({
   introduction: [{ required: true, message: '请输入简介', trigger: 'blur' }],
   username: [{ required: true, message: '请输入名字', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { type: 'number', message: '密码必须输入数字' }],
   avatar: [{ required: true, message: '请设置头像', trigger: 'blur' }],
   role: [{ required: true, message: '请输入权限', trigger: 'blur' }],
 })
@@ -135,6 +135,9 @@ const handleEdit = async data => {
 
   // userForm 成为响应式的两种方法： 1. reactive 搭配 Object.assign(userForm,{...res.data}) 2. ref userForm.value = res.data.data[0]
   // userForm.value = res.data.data[0];
+
+  // 后端传过来的password 是string类型，转成 number类型在 userFormRules 校验时不会出现提醒信息
+  res.data.data[0].password = Number(res.data.data[0].password);
   Object.assign(userForm, res.data.data[0])
   dialogVisible.value = true
 }
