@@ -88,18 +88,9 @@ const userFormRules = reactive({
 
 // 性别选项
 const options = [
-  {
-    label: '保密',
-    value: 0
-  },
-  {
-    label: '男',
-    value: 1
-  },
-  {
-    label: '女',
-    value: 2
-  },
+  { label: '保密', value: 0 },
+  { label: '男', value: 1 },
+  { label: '女', value: 2 },
 ]
 
 
