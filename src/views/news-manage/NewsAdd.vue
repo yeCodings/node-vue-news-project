@@ -28,9 +28,11 @@ import { computed, ref, reactive } from 'vue';
 import editor from '@/components/editor/Editor.vue'
 import Upload from '@/components/upload/Upload.vue'
 import upload from '@/util/upload'
+import { useRouter } from 'vue-router'
 import { ElMessage } from "element-plus";
 
-const newsFormRef = ref();
+const router = useRouter()
+const newsFormRef = ref()
 
 // 新闻表单数据
 const newsForm = reactive({
@@ -74,7 +76,6 @@ const coverChange = (file) => {
 const submitForm = () => {
   newsFormRef.value.validate(async (valid) => {
     if (valid) {
-      console.log('newsForm', newsForm)
       try {
         // 校验数据成功，提交数据到后端
         const res = await upload('/adminapi/news/add', newsForm)
