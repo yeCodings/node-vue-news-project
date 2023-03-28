@@ -32,7 +32,7 @@
 
           <el-button circle :icon="Star" type="success" @click="handlePreview(scope.row)" />
 
-          <el-button circle :icon="Edit" />
+          <el-button circle :icon="Edit" @click="handleEdit(scope.row)" />
 
           <el-popconfirm title="你确定删除吗" @confirm="handleDelete(scope.row)" confirmButtonText="确定" cancelButtonText="取消">
             <template #reference>
@@ -73,6 +73,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 import fromatTime from '@/util/formatTime'
 import { Star, Edit, Delete, StarFilled } from '@element-plus/icons-vue'
@@ -88,6 +89,8 @@ const dialogVisible = ref(false)
 
 // 预览新闻响应式数据
 const previewData = ref({})
+
+const router = useRouter();
 
 // 在组件挂载后获取数据
 onMounted(() => {
@@ -128,6 +131,11 @@ const handleDelete = async (item) => {
   await getTableData();
 }
 
+// 编辑的回调
+const handleEdit = (item) => {
+  console.log(' item', item._id)
+  router.push(`/news-manage/editnews/${item._id}`)
+}
 
 </script>
 
