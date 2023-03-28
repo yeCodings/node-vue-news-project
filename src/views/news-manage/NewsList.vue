@@ -133,10 +133,10 @@ const handleDelete = async (item) => {
 
 // 编辑的回调
 const handleEdit = (item) => {
-  console.log(' item', item._id)
   router.push(`/news-manage/editnews/${item._id}`)
 }
 
+const handleClose = () => { }
 </script>
 
 <style lang="scss" scoped>

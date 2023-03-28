@@ -22,7 +22,6 @@ onMounted(() => {
   props.content && editor.txt.html(props.content)
 
   editor.config.onchange = function (newHtml) {
-    // console.log(' onchange之后的html', newHtml)
     emits('event', newHtml)
   }
 })

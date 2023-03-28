@@ -97,10 +97,7 @@ const handleBack = () => {
 
 // 获取当前页面数据
 onMounted(async () => {
-
   const res = await axios.get(`/adminapi/news/List/${route.params.id}`)
-  console.log('route', res.data.data)
-
   Object.assign(newsForm, ...res.data.data)
 })
 
