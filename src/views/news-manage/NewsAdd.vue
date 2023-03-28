@@ -24,7 +24,8 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue';
+import { ref, reactive } from 'vue';
+import { useStore } from 'vuex';
 import editor from '@/components/editor/Editor.vue'
 import Upload from '@/components/upload/Upload.vue'
 import upload from '@/util/upload'
@@ -33,9 +34,13 @@ import { ElMessage } from "element-plus";
 
 const router = useRouter()
 const newsFormRef = ref()
+const store = useStore()
+
+const author = store.state.userInfo.username
 
 // 新闻表单数据
 const newsForm = reactive({
+  author,
   title: '',
   content: '',
   category: 1, // 1. 最新动态 2. 典型案例 3. 通知公告

@@ -165,6 +165,7 @@ const handleDelete = async data => {
   getTableData()
 }
 
+const handleClose = () => { }
 
 </script>
 

@@ -72,9 +72,10 @@
 
 
 <script setup>
+import axios from 'axios'
+import { useStore } from 'vuex';
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 import fromatTime from '@/util/formatTime'
 import { Star, Edit, Delete, StarFilled } from '@element-plus/icons-vue'
 
@@ -90,8 +91,10 @@ const dialogVisible = ref(false)
 // 预览新闻响应式数据
 const previewData = ref({})
 
-const router = useRouter();
+const router = useRouter()
 
+const store = useStore()
+const author = store.state.userInfo.username
 // 在组件挂载后获取数据
 onMounted(() => {
   getTableData();
@@ -100,7 +103,7 @@ onMounted(() => {
 // 获取新闻列表数据
 const getTableData = async () => {
   const res = await axios.get(`/adminapi/news/list`)
-  tableData.value = res.data.data
+  tableData.value = res.data.data.filter(item => item.author === author)
 }
 
 const categoryMap = {
