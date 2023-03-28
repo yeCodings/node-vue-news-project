@@ -29,7 +29,7 @@
 
       <el-table-column prop="isPublish" label="操作">
         <template #default="scope">
-          <el-button circle :icon="Star" type="success" />
+          <el-button circle :icon="Star" type="success" @click="handlePreview(scope.row)" />
           <el-button circle :icon="Edit" />
           <el-button circle :icon="Delete" type="danger" />
         </template>
@@ -46,8 +46,19 @@
           </div>
         </template>
       </el-table-column>
-
     </el-table>
+
+    <el-dialog v-model="dialogVisible" title="预览新闻" width="50%" :before-close="handleClose" center>
+      <div>
+        <h1>{{ previewData.title }}</h1>
+        <div class="editTime">{{ fromatTime.getTime(previewData.editTime) }}</div>
+        <el-divider>
+          <el-icon><star-filled /></el-icon>
+        </el-divider>
+        <!-- v-html 使用有风险，需要后端做好防护 -->
+        <div v-html="previewData.content" class="htmlContent"></div>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -56,12 +67,19 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import fromatTime from '@/util/formatTime'
-import { Star, Edit, Delete } from '@element-plus/icons-vue'
+import { Star, Edit, Delete, StarFilled } from '@element-plus/icons-vue'
 
 
 const BASE_URL = 'http://localhost:3000';
+
 // 创建tableData 响应式数据
-const tableData = ref([]);
+const tableData = ref([])
+
+// 预览新闻弹窗
+const dialogVisible = ref(false)
+
+// 预览新闻响应式数据
+const previewData = ref({})
 
 // 在组件挂载后获取数据
 onMounted(() => {
@@ -90,11 +108,30 @@ const handleSwitchChange = async (item) => {
   await getTableData();
 }
 
+// 预览的回调
+const handlePreview = (data) => {
+  previewData.value = data
+  dialogVisible.value = true
+}
+
 
 </script>
 
 <style lang="scss" scoped>
 .el-table {
   margin-top: 20px;
+}
+
+.editTime {
+  font-size: 12px;
+  color: gray;
+}
+
+::v-deep .htmlContent {
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
 }
 </style>
