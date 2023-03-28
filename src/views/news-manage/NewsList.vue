@@ -29,9 +29,17 @@
 
       <el-table-column prop="isPublish" label="操作">
         <template #default="scope">
+
           <el-button circle :icon="Star" type="success" @click="handlePreview(scope.row)" />
+
           <el-button circle :icon="Edit" />
-          <el-button circle :icon="Delete" type="danger" />
+
+          <el-popconfirm title="你确定删除吗" @confirm="handleDelete(scope.row)" confirmButtonText="确定" cancelButtonText="取消">
+            <template #reference>
+              <el-button circle :icon="Delete" type="danger" />
+            </template>
+          </el-popconfirm>
+
         </template>
       </el-table-column>
 
@@ -88,7 +96,7 @@ onMounted(() => {
 
 // 获取新闻列表数据
 const getTableData = async () => {
-  const res = await axios.get('/adminapi/news/list')
+  const res = await axios.get(`/adminapi/news/list`)
   tableData.value = res.data.data
 }
 
@@ -100,7 +108,7 @@ const categoryMap = {
 
 // 开关的回调
 const handleSwitchChange = async (item) => {
-  await axios.put('/adminapi/news/publish', {
+  await axios.put(`/adminapi/news/publish`, {
     _id: item._id,
     isPublish: item.isPublish
   })
@@ -112,6 +120,12 @@ const handleSwitchChange = async (item) => {
 const handlePreview = (data) => {
   previewData.value = data
   dialogVisible.value = true
+}
+
+// 删除的回调
+const handleDelete = async (item) => {
+  await axios.delete(`/adminapi/news/list/${item._id}`);
+  await getTableData();
 }
 
 
