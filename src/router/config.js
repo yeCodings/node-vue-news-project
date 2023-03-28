@@ -8,6 +8,7 @@ import NewsList from '../views/news-manage/NewsList.vue'
 import UserList from '../views/user-manage/UserList.vue'
 import ProductAdd from '../views/product-manage/ProductAdd.vue'
 import ProductList from '../views/product-manage/ProductList.vue'
+import ProductEdit from '../views/product-manage/ProductEdit.vue'
 
 const routesConfig = [
   {
@@ -47,6 +48,10 @@ const routesConfig = [
   {
     path: '/product-manage/productlist',
     component: ProductList,
+  },
+  {
+    path: '/product-manage/editproduct/:id',
+    component: ProductEdit,
   },
   {
     path: '/',

@@ -139,7 +139,7 @@ const handleEdit = (item) => {
   router.push(`/news-manage/editnews/${item._id}`)
 }
 
-const handleClose = () => { }
+const handleClose = () => { dialogVisible.value = false }
 </script>
 
 <style lang="scss" scoped>

@@ -165,7 +165,7 @@ const handleDelete = async data => {
   getTableData()
 }
 
-const handleClose = () => { }
+const handleClose = () => { dialogVisible.value = false }
 
 </script>
 
