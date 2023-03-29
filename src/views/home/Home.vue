@@ -15,9 +15,16 @@
       <template #header>
         <div class="card-header"><span>公司产品</span></div>
       </template>
-      <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in 6" :key="item">
-          <h3 text="2xl" justify="center">{{ item }}</h3>
+      <el-carousel :interval="2000" type="card" height="200px">
+        <el-carousel-item v-for="item in loopList" :key="item">
+          <div :style="{
+            backgroundImage: `url(${item.cover.includes('blob')
+              ? item.cover
+              : BASE_URL + item.cover})`,
+            backgroundSize: 'contain',
+          }">
+            <h3 text="2xl" justify="center">{{ item.title }}</h3>
+          </div>
         </el-carousel-item>
       </el-carousel>
     </el-card>
@@ -26,11 +33,13 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
+import axios from 'axios'
 
-
-const store = useStore();
-const BASE_URL = 'http://localhost:3000';
+const loopList = ref([])
+const store = useStore()
+const BASE_URL = 'http://localhost:3000'
+const author = store.state.userInfo.username
 
 const avatarUrl = computed(() =>
   store.state.userInfo.avatar
@@ -38,12 +47,22 @@ const avatarUrl = computed(() =>
     : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 );
 
-
 const welcomeText = computed(() =>
   new Date().getHours() < 12
     ? '只争朝夕，奋力拼搏'
     : '道阻且长，行则将至'
 )
+
+// 在组件挂载后获取数据
+onMounted(() => {
+  getData();
+})
+
+// 获取当前用户产品列表数据
+const getData = async () => {
+  const res = await axios.get(`/adminapi/product/list`)
+  loopList.value = res.data.data.filter(item => item.author === author)
+}
 
 </script>
 
@@ -53,7 +72,7 @@ const welcomeText = computed(() =>
 }
 
 .el-carousel__item h3 {
-  color: #475669;
+  color: white;
   opacity: 0.75;
   line-height: 200px;
   margin: 0;
