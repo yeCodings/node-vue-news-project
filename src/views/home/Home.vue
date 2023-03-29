@@ -16,12 +16,12 @@
         <div class="card-header"><span>公司产品</span></div>
       </template>
       <el-carousel :interval="2000" type="card" height="200px">
-        <el-carousel-item v-for="item in loopList" :key="item">
+        <el-carousel-item v-for="item in loopList" :key="item._id">
           <div :style="{
             backgroundImage: `url(${item.cover.includes('blob')
               ? item.cover
               : BASE_URL + item.cover})`,
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
           }">
             <h3 text="2xl" justify="center">{{ item.title }}</h3>
           </div>
